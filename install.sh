@@ -15,4 +15,7 @@ pacman -S nodejs npm
 echo "Installing node project dependencies...";
 npm install ./server
 
+echo "Creating apk directory"
+mkdir apk
+
 echo "*** MonkeyPi Install Complete ***";
