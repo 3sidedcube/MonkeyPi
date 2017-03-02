@@ -1,23 +1,23 @@
-APK="./apk/app.apk"
+APK="apk/app.apk"
 
 # This should come in when this script is called
-PACKAGE="com.cube.gdpc.rfb"
+PACKAGE=$1
 
 # This should come in when this script is called
-DELAY="250"
+DELAY=$2
 
 # This should come in when this script is called
-EVENT_COUNT="2000"
+EVENT_COUNT=$3
 
 # Install the app on all connected devices
 for SERIAL in $(adb devices | tail -n +2 | cut -sf 1);
 do
+  echo "*** Clearing data for device: " + $SERIAL;
   adb -s $SERIAL shell pm clear $PACKAGE
-  adb -s $SERIAL install -r $APK
-done
 
-# Test using monkey runner on all connected devices
-for SERIAL in $(adb devices | tail -n +2 | cut -sf 1);
-do
+  echo "*** Installing application to device: " + $SERIAL;
+  adb -s $SERIAL install -r $APK
+
+  echo "*** Running MonkeyRunner on device: " + $SERIAL;
   adb -s $SERIAL shell monkey -p $PACKAGE --throttle $DELAY --monitor-native-crashes $EVENT_COUNT &
 done
