@@ -1,6 +1,7 @@
 var express = require("express");
 var multer = require('multer');
 var app = express();
+var handlebars = require('handlebars');
 var storage = multer.diskStorage({
   destination: function (request, file, callback) {
     callback(null, 'apk');
@@ -24,7 +25,7 @@ app.get('/',function(request, response) {
     displayHtmlPage(response, "index.html")
 });
 
-app.post('/upload/apk',function(request, response) {
+app.post('/install',function(request, response) {
     upload(request, response, function(error) {
         if (error) {
             return displayHtmlPage(response, "error.html");
@@ -40,7 +41,19 @@ app.post('/upload/apk',function(request, response) {
           }
         });
 
-        displayHtmlPage(response, "installing.html");
+        var data = {
+            packageName: request.body.packageName,
+            delayMs: request.body.delayMs,
+            numberOfEvents: request.body.numberOfEvents
+        };
+
+        filesystem.readFile('./server/html/installed.html', 'utf-8', function(error, source) {
+            var template = handlebars.compile(source);
+            var html = template(data);
+            response.send(template);
+        });
+
+        // displayHtmlPage(response, "installed.html");
     });
 });
 
