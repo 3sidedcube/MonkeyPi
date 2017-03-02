@@ -1,6 +1,12 @@
-APK="app.apk"
-PACKAGE="uk.co.jamiecruwys.app"
+APK="../apk/app.apk"
+
+# This should come in when this script is called
+PACKAGE="com.cube.gdpc.rfb"
+
+# This should come in when this script is called
 DELAY="250"
+
+# This should come in when this script is called
 EVENT_COUNT="2000"
 
 # Install the app on all connected devices
