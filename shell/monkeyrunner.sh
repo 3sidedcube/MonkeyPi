@@ -1,4 +1,4 @@
-APK="../apk/app.apk"
+APK="./apk/app.apk"
 
 # This should come in when this script is called
 PACKAGE="com.cube.gdpc.rfb"

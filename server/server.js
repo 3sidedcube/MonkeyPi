@@ -11,7 +11,7 @@ var storage = multer.diskStorage({
 });
 var upload = multer({ storage : storage}).fields([{name: 'apk'}, {name: 'packageName'}, {name: 'delayMs'}, {name: 'numberOfEvents'}]);
 var exec = require('child_process').exec;
-var SHELL_FILE = "../shell/monkeyrunner.sh";
+var SHELL_FILE = "./shell/monkeyrunner.sh";
 var PORT_NUMBER = 3000;
 
 function runShellScript() {
