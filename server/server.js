@@ -45,7 +45,7 @@ function runShellScript(packageName, delayMs, numberOfEvents) {
         }
 
         console.log("*** FINISHED JOB ***");
-    }
+    });
 }
 
 function displayHtmlPage(response, fileName) {
