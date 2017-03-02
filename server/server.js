@@ -29,6 +29,12 @@ function runShellScript(packageName, delayMs, numberOfEvents) {
         }
 
         console.log("*** FINISHED JOB ***");
+
+        console.log("*** STDOUT ****");
+        console.log(stdout);
+
+        console.log("*** STDERROR ****");
+        console.log(stdout);
     });
 }
 
