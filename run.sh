@@ -1,3 +1,3 @@
 echo "*** Starting MonkeyPi ***";
-node server.js
+node server/server.js
 echo "*** Started MonkeyPi ***";
