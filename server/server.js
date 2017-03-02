@@ -12,41 +12,9 @@ var storage = multer.diskStorage({
 var upload = multer({ storage : storage}).fields([{name: 'apk'}, {name: 'packageName'}, {name: 'delayMs'}, {name: 'numberOfEvents'}]);
 var exec = require('child_process').exec;
 var filesystem = require('fs');
-var SHELL_FILE = "./shell/monkeyrunner.sh";
+var SHELL_INSTALL_FILE = "./shell/install.sh";
+var SHELL_TEST_FILE = "./shell/test.sh";
 var PORT_NUMBER = 3000;
-
-function runShellScript(packageName, delayMs, numberOfEvents) {
-    console.log("*** NEW JOB ***");
-    console.log("*** Package: " + packageName);
-    console.log("*** Delay: " + delayMs);
-    console.log("*** Events: " + numberOfEvents);
-
-    exec("sh " + SHELL_FILE + " " + packageName + " " + delayMs + " " + numberOfEvents, function(error, stdout, stderr) {
-        if (error !== null) {
-            console.log("*** SHELL ERROR ***");
-            console.log("*** ERROR: " + error);
-            console.log("*** STDOUT: " + stdout);
-        }
-
-        if (stdout !== null) {
-            filesystem.writeFile("./logs/" + Date.now() + "-stdout.txt", stdout, function(error) {
-                if (error) {
-                  return console.log(error);
-                }
-            });
-        }
-
-        if (stderr !== null) {
-            filesystem.writeFile("./logs/" + Date.now() + "-stderr.txt", stdout, function(error) {
-                if (error) {
-                  return console.log(error);
-                }
-            });
-        }
-
-        console.log("*** FINISHED JOB ***");
-    });
-}
 
 function displayHtmlPage(response, fileName) {
     response.sendFile(__dirname + "/html/" + fileName);
@@ -59,16 +27,31 @@ app.get('/',function(request, response) {
 app.post('/upload/apk',function(request, response) {
     upload(request, response, function(error) {
         if (error) {
-            displayHtmlPage(response, "error.html");
+            return displayHtmlPage(response, "error.html");
         }
 
         var packageName = request.body.packageName;
         var delayMs = request.body.delayMs;
         var numberOfEvents = request.body.numberOfEvents;
 
-        runShellScript(packageName, delayMs, numberOfEvents);
-        displayHtmlPage(response, "success.html");
+        exec("sh " + SHELL_INSTALL_FILE + " " + packageName, function(error, stdout, stderr) {
+          if (error !== null) {
+            displayHtmlPage(response, "error.html");
+          }
+        });
+
+        displayHtmlPage(response, "installing.html");
     });
+});
+
+app.get('/test',function(request, response) {
+    exec("sh " + SHELL_TEST_FILE + " " + packageName + " " + delayMs + " " + numberOfEvents, function(error, stdout, stderr) {
+      if (error !== null) {
+        displayHtmlPage(response, "error.html");
+      }
+    });
+
+    displayHtmlPage(response, "testing.html");
 });
 
 app.listen(PORT_NUMBER,function() {
