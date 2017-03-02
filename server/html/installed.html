@@ -2,7 +2,13 @@
   <head>
   </head>
   <body>
-    <h1>Application Installed on all connected devices</h1>
-    <h3><a href="test?packageName={{packageName}}&delayMs={{delayMs}}&numberOfEvents={{numberOfEvents}}">Test your app</a></h3>
+    <h1>Ready to test {{packageName}}?</h1>
+    <h2>{{packageName}} has been installed and is ready to be tested</h2>
+    <form id="uploadForm" enctype="multipart/form-data" action="/test" method="post">
+      <input type="hidden" name="packageName" value="{{packageName}}"/>
+      <input type="hidden" name="delayMs" value="{{delayMs}}">
+      <input type="hidden" name="numberOfEvents" value="{{numberOfEvents}}">
+      <input type="submit" value="Test App" name="test">
+    </form>
   </body>
 </html>
