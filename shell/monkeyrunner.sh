@@ -19,5 +19,5 @@ do
   adb -s $SERIAL install -r $APK
 
   echo "*** Running MonkeyRunner on device: " + $SERIAL;
-  adb -s $SERIAL shell monkey -p $PACKAGE --throttle $DELAY --monitor-native-crashes $EVENT_COUNT &
+  adb -s $SERIAL shell monkey -p $PACKAGE --throttle $DELAY --monitor-native-crashes --ignore-crashes $EVENT_COUNT &
 done
