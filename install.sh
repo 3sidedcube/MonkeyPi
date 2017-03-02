@@ -13,6 +13,6 @@ echo "Installing NodeJS and NPM...";
 pacman -S nodejs npm
 
 echo "Installing node project dependencies...";
-npm install
+npm install ./server
 
 echo "*** MonkeyPi Install Complete ***";
