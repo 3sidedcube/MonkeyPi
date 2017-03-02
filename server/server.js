@@ -3,15 +3,15 @@ var multer = require('multer');
 var app = express();
 var storage = multer.diskStorage({
   destination: function (request, file, callback) {
-    callback(null, './apk');
+    callback(null, '../apk');
   },
   filename: function (request, file, callback) {
-    callback(null, 'app-' + Date.now() + '.apk');
+    callback(null, 'app.apk');
   }
 });
 var upload = multer({ storage : storage}).fields([{name: 'apk'}, {name: 'packageName'}, {name: 'delayMs'}, {name: 'numberOfEvents'}]);
 var exec = require('child_process').exec;
-var SHELL_FILE = "shell/test.sh";
+var SHELL_FILE = "../shell/monkeyrunner.sh";
 var PORT_NUMBER = 3000;
 
 function runShellScript() {
