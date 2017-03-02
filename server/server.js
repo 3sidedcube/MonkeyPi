@@ -28,14 +28,24 @@ function runShellScript(packageName, delayMs, numberOfEvents) {
             console.log("*** STDOUT: " + stdout);
         }
 
+        if (stdout !== null) {
+            filesystem.writeFile("./logs/" + Date.now() + "-stdout.txt", stdout, function(error) {
+                if (error) {
+                  return console.log(error);
+                }
+            });
+        }
+
+        if (stderr !== null) {
+            filesystem.writeFile("./logs/" + Date.now() + "-stderr.txt", stdout, function(error) {
+                if (error) {
+                  return console.log(error);
+                }
+            });
+        }
+
         console.log("*** FINISHED JOB ***");
-
-        console.log("*** STDOUT ****");
-        console.log(stdout);
-
-        console.log("*** STDERROR ****");
-        console.log(stdout);
-    });
+    }
 }
 
 function displayHtmlPage(response, fileName) {
