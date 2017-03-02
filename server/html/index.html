@@ -1,7 +1,7 @@
 <form id="uploadForm" enctype="multipart/form-data" action="/install" method="post">
   <input type="file" name="apk" />
   <input type="text" name="packageName" />
-  <input type="number" name="delayMs" min="100" max="2000">
-  <input type="number" name="numberOfEvents" min="1" max="50000">
+  <input type="number" name="delayMs" min="50" max="1000">
+  <input type="number" name="numberOfEvents" min="1" max="10000">
   <input type="submit" value="Submit App" name="submit">
 </form>
