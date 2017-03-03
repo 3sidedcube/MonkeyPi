@@ -1,6 +1,8 @@
 var express = require("express");
 var multer = require('multer');
 var app = express();
+app.use(express.static('server/public'));
+
 var handlebars = require('handlebars');
 var storage = multer.diskStorage({
   destination: function (request, file, callback) {
@@ -66,11 +68,11 @@ function validRequest(request) {
     return true;
 }
 
-app.get('/',function(request, response) {
-    displayHtmlPage("index.html", response);
+app.get('/', function(request, response) {
+    return displayHtmlPage("index.html", response);
 });
 
-app.post('/install',function(request, response) {
+app.post('/install', function(request, response) {
     upload(request, response, function(error) {
         if (error) {
             console.log("Error for install request: " + error);
@@ -128,6 +130,6 @@ app.post('/test',function(request, response) {
     });
 });
 
-app.listen(PORT_NUMBER,function() {
+app.listen(PORT_NUMBER, function() {
     console.log("*** SERVER SETUP ON PORT " + PORT_NUMBER + " ***");
 });
