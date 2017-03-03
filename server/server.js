@@ -116,6 +116,8 @@ app.post('/test',function(request, response) {
         var testingMilliseconds = data.minutes * 60000;
         var numberOfEvents = testingMilliseconds / delayMs;
 
+        console.log("Number of events: " + numberOfEvents);
+
         exec("sh " + SHELL_TEST_FILE + " " + data.packageName + " " + delayMs + " " + numberOfEvents, function(error, stdout, stderr) {
             if (error) {
                 console.log("Error executing shell test script: " + error);
