@@ -24,37 +24,29 @@
                     </div>
                 </div>
 
-                <!-- Text input-->
+                <!-- Multiple Radios (inline) -->
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="packageName">Package Name</label>
+                    <label class="col-md-4 control-label" for="time">Testing Time (minutes)</label>
                     <div class="col-md-4">
-                        <input id="packageName" name="packageName" placeholder="com.cube.gdpc.rfb" class="form-control input-md" required="" type="text">
-                    </div>
-                </div>
+                        <label class="radio-inline" for="minutes-5">
+                            <input name="minutes" id="minutes-5" value="5" checked="checked" type="radio">
+                            5
+                        </label>
 
-                <!-- Select Basic -->
-                <div class="form-group">
-                    <label class="col-md-4 control-label" for="delayMs">Monkey Input Delay</label>
-                    <div class="col-md-4">
-                        <select id="delayMs" name="delayMs" class="form-control">
-                            <option value="50">50 ms</option>
-                            <option value="75">75 ms</option>
-                            <option value="100">100 ms</option>
-                            <option value="125">125 ms</option>
-                        </select>
-                    </div>
-                </div>
+                        <label class="radio-inline" for="minutes-10">
+                            <input name="minutes" id="minutes-10" value="10" type="radio">
+                            10
+                        </label>
 
-                <!-- Select Basic -->
-                <div class="form-group">
-                    <label class="col-md-4 control-label" for="numberOfEvents">Monkey Input Count</label>
-                    <div class="col-md-4">
-                        <select id="numberOfEvents" name="numberOfEvents" class="form-control">
-                            <option value="3000">3000</option>
-                            <option value="4000">4000</option>
-                            <option value="5000">5000</option>
-                            <option value="6000">6000</option>
-                        </select>
+                        <label class="radio-inline" for="time-2">
+                            <input name="minutes" id="minutes-20" value="20" type="radio">
+                            20
+                        </label>
+
+                        <label class="radio-inline" for="time-3">
+                            <input name="minutes" id="minutes-30" value="30" type="radio">
+                            30
+                        </label>
                     </div>
                 </div>
 
