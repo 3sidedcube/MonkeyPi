@@ -46,10 +46,11 @@ function validRequest(request) {
         return false;
     }
 
+    var packageName = request.body.packageName;
     var minutes = request.body.minutes;
 
-    if (!minutes) {
-        console.log("Request does not have minutes set");
+    if (!packageName || !minutes) {
+        console.log("Request does not have packageName or minutes set");
         return false;
     }
 
