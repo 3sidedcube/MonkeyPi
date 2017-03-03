@@ -1,14 +1,45 @@
-<html>
-  <head>
-  </head>
-  <body>
-    <h1>Ready to test {{packageName}}?</h1>
-    <h2>{{packageName}} has been installed and is ready to be tested</h2>
-    <form id="uploadForm" enctype="multipart/form-data" action="/test" method="post">
-      <input type="hidden" name="packageName" value="{{packageName}}"/>
-      <input type="hidden" name="delayMs" value="{{delayMs}}">
-      <input type="hidden" name="numberOfEvents" value="{{numberOfEvents}}">
-      <input type="submit" value="Test App" name="test">
-    </form>
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1"><html>
+
+        <title>MonkeyPi</title>
+
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h1 class="cover-heading">Ready to test {{packageName}}?</h1>
+                    <p class="lead">{{packageName}} has been installed and is ready to be tested</p>
+                    <p class="lead">
+                        <!-- <a href="#" class="btn btn-lg btn-default">Learn more</a> -->
+                        <form class="form-horizontal" id="uploadForm" enctype="multipart/form-data" action="/test" method="post">
+                            <fieldset>
+                                <!-- Hidden -->
+                                <input type="hidden" name="packageName" value="{{packageName}}"/>
+                                <input type="hidden" name="delayMs" value="{{delayMs}}">
+                                <input type="hidden" name="numberOfEvents" value="{{numberOfEvents}}">
+
+                                <!-- Button -->
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="submit"></label>
+                                    <div class="col-md-4">
+                                        <button id="submit" name="submit" class="btn btn-primary">Test App</button>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    </body>
 </html>
