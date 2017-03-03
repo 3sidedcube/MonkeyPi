@@ -39,4 +39,5 @@ jspm_packages
 node_module
 node_modules/
 
-.apk
+*.apk
+*.DS_Store

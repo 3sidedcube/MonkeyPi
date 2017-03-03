@@ -1,6 +1,9 @@
 var express = require("express");
 var multer = require('multer');
 var app = express();
+app.use(express.static('server/public'));
+
+var handlebars = require('handlebars');
 var storage = multer.diskStorage({
   destination: function (request, file, callback) {
     callback(null, 'apk');
@@ -12,65 +15,121 @@ var storage = multer.diskStorage({
 var upload = multer({ storage : storage}).fields([{name: 'apk'}, {name: 'packageName'}, {name: 'delayMs'}, {name: 'numberOfEvents'}]);
 var exec = require('child_process').exec;
 var filesystem = require('fs');
-var SHELL_FILE = "./shell/monkeyrunner.sh";
+var SHELL_INSTALL_FILE = "./shell/install.sh";
+var SHELL_TEST_FILE = "./shell/test.sh";
 var PORT_NUMBER = 3000;
 
-function runShellScript(packageName, delayMs, numberOfEvents) {
-    console.log("*** NEW JOB ***");
-    console.log("*** Package: " + packageName);
-    console.log("*** Delay: " + delayMs);
-    console.log("*** Events: " + numberOfEvents);
+function displayPage(fileName, data, response) {
+    if (!data) {
+        return displayHtmlPage(fileName, response);
+    }
 
-    exec("sh " + SHELL_FILE + " " + packageName + " " + delayMs + " " + numberOfEvents, function(error, stdout, stderr) {
-        if (error !== null) {
-            console.log("*** SHELL ERROR ***");
-            console.log("*** ERROR: " + error);
-            console.log("*** STDOUT: " + stdout);
+    filesystem.readFile(__dirname + "/html/" + fileName, 'utf-8', function(error, source) {
+        if (error) {
+            console.log("Error reading template file: " + error);
+            return displayHtmlPage("error.html", response);
         }
 
-        if (stdout !== null) {
-            filesystem.writeFile("./logs/" + Date.now() + "-stdout.txt", stdout, function(error) {
-                if (error) {
-                  return console.log(error);
-                }
-            });
-        }
-
-        if (stderr !== null) {
-            filesystem.writeFile("./logs/" + Date.now() + "-stderr.txt", stdout, function(error) {
-                if (error) {
-                  return console.log(error);
-                }
-            });
-        }
-
-        console.log("*** FINISHED JOB ***");
+        var template = handlebars.compile(source);
+        var html = template(data);
+        response.send(html);
     });
 }
 
-function displayHtmlPage(response, fileName) {
+function displayHtmlPage(fileName, response) {
     response.sendFile(__dirname + "/html/" + fileName);
 }
 
-app.get('/',function(request, response) {
-    displayHtmlPage(response, "index.html")
+function validRequest(request) {
+    if (!request || !request.body) {
+        return false;
+    }
+
+    var packageName = request.body.packageName;
+    var delayMs = request.body.delayMs;
+    var numberOfEvents = request.body.numberOfEvents;
+
+    if (!packageName || !delayMs || !numberOfEvents) {
+        return false;
+    }
+
+    // Delay input validation
+    if (delayMs < 50 || delayMs > 1000) {
+        console.log("Delay input validation failed for input: " + delayMs);
+        return false;
+    }
+
+    // Event input validation
+    if (numberOfEvents < 1 || numberOfEvents > 10000) {
+        console.log("Event input validation failed for input: " + numberOfEvents);
+        return false;
+    }
+
+    return true;
+}
+
+app.get('/', function(request, response) {
+    return displayHtmlPage("index.html", response);
 });
 
-app.post('/upload/apk',function(request, response) {
+app.post('/install', function(request, response) {
     upload(request, response, function(error) {
         if (error) {
-            displayHtmlPage(response, "error.html");
+            console.log("Error for install request: " + error);
+            return displayHtmlPage("error.html", response);
         }
 
-        var packageName = request.body.packageName;
-        var delayMs = request.body.delayMs;
-        var numberOfEvents = request.body.numberOfEvents;
+        if (!validRequest(request)) {
+            console.log("Invalid install request: " + request);
+            return displayHtmlPage("error.html", response);
+        }
 
-        runShellScript(packageName, delayMs, numberOfEvents);
-        displayHtmlPage(response, "success.html");
+        var data = {
+            packageName: request.body.packageName,
+            delayMs: request.body.delayMs,
+            numberOfEvents: request.body.numberOfEvents
+        };
+
+        exec("sh " + SHELL_INSTALL_FILE + " " + data.packageName, function(error, stdout, stderr) {
+            if (error) {
+                console.log("Error executing shell install script: " + error);
+                return displayHtmlPage("error.html", response);
+            }
+        });
+
+        displayPage("installed.html", data, response);
     });
 });
 
-app.listen(PORT_NUMBER,function() {
+app.post('/test',function(request, response) {
+    upload(request, response, function(error) {
+        if (error) {
+            console.log("Error for test request: " + error);
+            return displayHtmlPage("error.html", response);
+        }
+
+        if (!validRequest(request)) {
+            console.log("Invalid test request: " + request);
+            return displayHtmlPage("error.html", response);
+        }
+
+        var data = {
+            packageName: request.body.packageName,
+            delayMs: request.body.delayMs,
+            numberOfEvents: request.body.numberOfEvents
+        };
+
+        exec("sh " + SHELL_TEST_FILE + " " + data.packageName + " " + data.delayMs + " " + data.numberOfEvents, function(error, stdout, stderr) {
+            if (error) {
+                console.log("Error executing shell test script: " + error);
+                return displayHtmlPage("error.html", response);
+            }
+        });
+
+        displayPage("testing.html", data, response);
+    });
+});
+
+app.listen(PORT_NUMBER, function() {
     console.log("*** SERVER SETUP ON PORT " + PORT_NUMBER + " ***");
 });
