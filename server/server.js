@@ -117,14 +117,15 @@ app.post('/test',function(request, response) {
         var numberOfEvents = testingMilliseconds / delayMs;
 
         console.log("Number of events: " + numberOfEvents);
-        console.log("Before: " + new Date().getMilliseconds());
+        var startTime = new Date().getTime();
 
         exec("sh " + SHELL_TEST_FILE + " " + data.packageName + " " + delayMs + " " + numberOfEvents, function(error, stdout, stderr) {
             if (error) {
                 console.log("Error executing shell test script: " + error);
                 return displayHtmlPage("error.html", response);
             }
-            console.log("After: " + new Date().getMilliseconds());
+
+            console.log("Testing took " + new Date().getTime() - startTime + "ms");
         });
 
         displayPage("testing.html", data, response);
