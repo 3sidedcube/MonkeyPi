@@ -112,17 +112,19 @@ app.post('/test',function(request, response) {
             minutes: request.body.minutes
         };
 
-        var delayMs = 50;
+        var delayMs = 100;
         var testingMilliseconds = data.minutes * 60000;
         var numberOfEvents = testingMilliseconds / delayMs;
 
         console.log("Number of events: " + numberOfEvents);
+        console.log("Before: " + new Date().getMilliseconds());
 
         exec("sh " + SHELL_TEST_FILE + " " + data.packageName + " " + delayMs + " " + numberOfEvents, function(error, stdout, stderr) {
             if (error) {
                 console.log("Error executing shell test script: " + error);
                 return displayHtmlPage("error.html", response);
             }
+            console.log("After: " + new Date().getMilliseconds());
         });
 
         displayPage("testing.html", data, response);
