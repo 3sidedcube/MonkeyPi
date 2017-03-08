@@ -125,7 +125,9 @@ app.post('/test',function(request, response) {
                 return displayHtmlPage("error.html", response);
             }
 
-            console.log("Testing took " + new Date().getTime() - startTime + "ms");
+            var elapsed = new Date().getTime() - startTime;
+            console.log("Testing took " + elapsed + "ms");
+            console.log(elapsed);
         });
 
         displayPage("testing.html", data, response);
