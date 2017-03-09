@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>MonkeyPi</title>
+
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    </head>
+    <body>
+        <form class="form-horizontal" id="uploadForm" enctype="multipart/form-data" action="/install" method="post">
+            <fieldset>
+                <!-- Form Name -->
+                <legend>MonkeyPi</legend>
+
+                <!-- File Button -->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="apk">APK File</label>
+                    <div class="col-md-4">
+                        <input id="apk" name="apk" class="input-file" required="" type="file">
+                    </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="packageName">Package Name</label>
+                    <div class="col-md-4">
+                        <input id="packageName" name="packageName" placeholder="com.cube.gdpc.rfb" class="form-control input-md" required="" type="text">
+                    </div>
+                </div>
+
+                <!-- Button -->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="submit"></label>
+                    <div class="col-md-4">
+                        <button id="submit" name="submit" class="btn btn-primary">Install App</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    </body>
+</html>

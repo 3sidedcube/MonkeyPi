@@ -64,7 +64,11 @@ function validRequest(request) {
 }
 
 app.get('/', function(request, response) {
-    return displayHtmlPage("index.html", response);
+    return displayHtmlPage("install.html", response);
+});
+
+app.get('/install',function(request, response) {
+    return displayHtmlPage("install.html", response);
 });
 
 app.post('/install', function(request, response) {
@@ -81,7 +85,6 @@ app.post('/install', function(request, response) {
 
         var data = {
             packageName: request.body.packageName,
-            minutes: request.body.minutes
         };
 
         exec("sh " + SHELL_INSTALL_FILE + " " + data.packageName, function(error, stdout, stderr) {
@@ -93,6 +96,10 @@ app.post('/install', function(request, response) {
 
         displayPage("installed.html", data, response);
     });
+});
+
+app.get('/test',function(request, response) {
+    return displayHtmlPage("test.html", response);
 });
 
 app.post('/test',function(request, response) {
