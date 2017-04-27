@@ -120,8 +120,16 @@ app.post('/test',function(request, response) {
         };
 
         var delayMs = 100;
+        console.log("DelayMS: " + delayMs);
+
         var testingMilliseconds = data.minutes * 60000;
-        var numberOfEvents = testingMilliseconds / delayMs;
+        console.log("Testing milliseconds: " + testingMilliseconds);
+
+        // Shave 7.5% off the time we are going to test for, so that it has an extremely high probability of being finished before the time runs out
+        testingMilliseconds = testingMilliseconds * 0.925;
+
+        // testingMilliseconds = (numberOfEvents / 2) * delayMs
+        var numberOfEvents = (testingMilliseconds / delayMs) * 2;
 
         console.log("Number of events: " + numberOfEvents);
         var startTime = new Date().getTime();
