@@ -1,0 +1,3 @@
+[submodule "MonkeyScripts"]
+	path = MonkeyScripts
+	url = https://github.com/JamieCruwys/MonkeyScript.git
