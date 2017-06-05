@@ -80,14 +80,17 @@ app.post('/install', function(request, response) {
             return displayHtmlPage("error.html", response);
         }
 
-        if (!validRequest(request)) {
-            console.log("Invalid install request: " + request);
-            return displayHtmlPage("error.html", response);
-        }
+        // if (!validRequest(request)) {
+        //     console.log("Invalid install request: " + request);
+        //     return displayHtmlPage("error.html", response);
+        // }
 
         var data = {
-            packageName: request.body.packageName,
+            // packageName: request.body.packageName,
+            packageName: 'com.test.change'
         };
+
+
 
         exec("sh " + SHELL_INSTALL_FILE + " " + data.packageName, function(error, stdout, stderr) {
             if (error) {
@@ -96,12 +99,12 @@ app.post('/install', function(request, response) {
             }
         });
 
-        displayPage("installed.html", data, response);
+        displayPage("test.html", data, response);
     });
 });
 
 app.get('/test',function(request, response) {
-    return displayHtmlPage("test.html", response);
+    return displayPage("test.html", {}, response);
 });
 
 app.post('/file-upload', function(request, response) {
@@ -114,6 +117,8 @@ app.post('/file-upload', function(request, response) {
         }
     });
 });
+
+
 
 app.post('/test',function(request, response) {
     upload(request, response, function(error) {
