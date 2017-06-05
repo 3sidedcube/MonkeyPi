@@ -9,22 +9,34 @@
 
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link rel="stylesheet" href="css/dropzone.min.css">
+        <link rel="stylesheet" href="css/style.css">
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+
     </head>
     <body>
-        <form class="form-horizontal" id="uploadForm" enctype="multipart/form-data" action="/install" method="post">
+      <div class="wrapper">
+        <div class="box">
+          <div class="box-header">
+            <h1>Monkey Pi Android Tester</h1>
+          </div>
+          <div class="box-body">
+            <form action="/file-upload" class="dropzone" id="fileUpload">
+              <div class="fallback">
+                <input name="apk" required type="file" accept=".apk, .APK"/>
+              </div>
+            </form>
+          </div>
+          <button class="box-footer-button" disabled="true">Install on device</button>
+        </div>
+      </div>
+
+
+        <!-- <form class="form-horizontal" id="uploadForm" enctype="multipart/form-data" action="/install" method="post">
             <fieldset>
-                <!-- Form Name -->
-                <legend>MonkeyPi</legend>
 
-                <!-- File Button -->
-                <div class="form-group">
-                    <label class="col-md-4 control-label" for="apk">APK File</label>
-                    <div class="col-md-4">
-                        <input id="apk" name="apk" class="input-file" required="" type="file">
-                    </div>
-                </div>
 
-                <!-- Text input-->
+                <!-- Text input
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="packageName">Package Name</label>
                     <div class="col-md-4">
@@ -32,17 +44,32 @@
                     </div>
                 </div>
 
-                <!-- Button -->
+                <!-- Button
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="submit"></label>
                     <div class="col-md-4">
-                        <button id="submit" name="submit" class="btn btn-primary">Install App</button>
+                        <button id="submit" type="submit" class="btn btn-primary">Install App</button>
                     </div>
                 </div>
             </fieldset>
-        </form>
-
+        </form> -->
         <!-- Latest compiled and minified JavaScript -->
+        <script src="js/jquery-3.2.1.min.js"></script>
         <script src="js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <script src="js/dropzone.min.js"></script>
+
+        <script>
+          /* Set the dropzone objects params, its the camelized version of the HTML element's ID */
+          Dropzone.options.fileUpload = {
+            paramName: "apk",
+            uploadMultiple: false,
+            maxFiles: 1,
+            dictDefaultMessage: "Select or drop an APK here",
+            acceptedFiles: ".apk, .APK",
+            init: function() {
+              this.on("success", function(file) { $('.box-footer-button').prop('disabled', false); });
+            }
+          };
+        </script>
     </body>
 </html>
