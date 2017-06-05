@@ -42,26 +42,21 @@ function displayHtmlPage(fileName, response) {
 
 function validRequest(request) {
     if (!request || !request.body) {
+        console.log("Request has no body");
         return false;
     }
 
     var packageName = request.body.packageName;
-    var delayMs = request.body.delayMs;
-    var numberOfEvents = request.body.numberOfEvents;
+    var minutes = request.body.minutes;
 
-    if (!packageName || !delayMs || !numberOfEvents) {
+    if (!packageName || !minutes) {
+        console.log("Request does not have packageName or minutes set");
         return false;
     }
 
-    // Delay input validation
-    if (delayMs < 50 || delayMs > 1000) {
-        console.log("Delay input validation failed for input: " + delayMs);
-        return false;
-    }
-
-    // Event input validation
-    if (numberOfEvents < 1 || numberOfEvents > 10000) {
-        console.log("Event input validation failed for input: " + numberOfEvents);
+    // Minutes input validation
+    if (minutes < 5 || minutes > 30) {
+        console.log("Minutes input validation failed for input: " + minutes);
         return false;
     }
 
@@ -69,7 +64,11 @@ function validRequest(request) {
 }
 
 app.get('/', function(request, response) {
-    return displayHtmlPage("index.html", response);
+    return displayHtmlPage("install.html", response);
+});
+
+app.get('/install',function(request, response) {
+    return displayHtmlPage("install.html", response);
 });
 
 app.post('/install', function(request, response) {
@@ -86,8 +85,6 @@ app.post('/install', function(request, response) {
 
         var data = {
             packageName: request.body.packageName,
-            delayMs: request.body.delayMs,
-            numberOfEvents: request.body.numberOfEvents
         };
 
         exec("sh " + SHELL_INSTALL_FILE + " " + data.packageName, function(error, stdout, stderr) {
@@ -99,6 +96,10 @@ app.post('/install', function(request, response) {
 
         displayPage("installed.html", data, response);
     });
+});
+
+app.get('/test',function(request, response) {
+    return displayHtmlPage("test.html", response);
 });
 
 app.post('/test',function(request, response) {
@@ -115,15 +116,33 @@ app.post('/test',function(request, response) {
 
         var data = {
             packageName: request.body.packageName,
-            delayMs: request.body.delayMs,
-            numberOfEvents: request.body.numberOfEvents
+            minutes: request.body.minutes
         };
 
-        exec("sh " + SHELL_TEST_FILE + " " + data.packageName + " " + data.delayMs + " " + data.numberOfEvents, function(error, stdout, stderr) {
+        var delayMs = 100;
+        console.log("DelayMS: " + delayMs);
+
+        var testingMilliseconds = data.minutes * 60000;
+        console.log("Testing milliseconds: " + testingMilliseconds);
+
+        // Shave 7.5% off the time we are going to test for, so that it has an extremely high probability of being finished before the time runs out
+        testingMilliseconds = testingMilliseconds * 0.925;
+
+        // testingMilliseconds = (numberOfEvents / 2) * delayMs
+        var numberOfEvents = (testingMilliseconds / delayMs) * 2;
+
+        console.log("Number of events: " + numberOfEvents);
+        var startTime = new Date().getTime();
+
+        exec("sh " + SHELL_TEST_FILE + " " + data.packageName + " " + delayMs + " " + numberOfEvents, function(error, stdout, stderr) {
             if (error) {
                 console.log("Error executing shell test script: " + error);
                 return displayHtmlPage("error.html", response);
             }
+
+            var elapsed = new Date().getTime() - startTime;
+            console.log("Testing took " + elapsed + "ms");
+            console.log(elapsed);
         });
 
         displayPage("testing.html", data, response);

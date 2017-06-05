@@ -22,8 +22,32 @@
                             <fieldset>
                                 <!-- Hidden -->
                                 <input type="hidden" name="packageName" value="{{packageName}}"/>
-                                <input type="hidden" name="delayMs" value="{{delayMs}}">
-                                <input type="hidden" name="numberOfEvents" value="{{numberOfEvents}}">
+
+                                <!-- Multiple Radios (inline) -->
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="time">Testing Time (minutes)</label>
+                                    <div class="col-md-4">
+                                        <label class="radio-inline" for="minutes-5">
+                                            <input name="minutes" id="minutes-5" value="5" checked="checked" type="radio">
+                                            5
+                                        </label>
+
+                                        <label class="radio-inline" for="minutes-10">
+                                            <input name="minutes" id="minutes-10" value="10" type="radio">
+                                            10
+                                        </label>
+
+                                        <label class="radio-inline" for="time-2">
+                                            <input name="minutes" id="minutes-20" value="20" type="radio">
+                                            20
+                                        </label>
+
+                                        <label class="radio-inline" for="time-3">
+                                            <input name="minutes" id="minutes-30" value="30" type="radio">
+                                            30
+                                        </label>
+                                    </div>
+                                </div>
 
                                 <!-- Button -->
                                 <div class="form-group">
