@@ -13,6 +13,8 @@ var storage = multer.diskStorage({
   }
 });
 var upload = multer({ storage : storage}).fields([{name: 'apk'}, {name: 'packageName'}, {name: 'delayMs'}, {name: 'numberOfEvents'}]);
+var fileUpload = multer({ storage : storage}).fields([{name: 'apk'}]);
+
 var exec = require('child_process').exec;
 var filesystem = require('fs');
 var SHELL_INSTALL_FILE = "./shell/install.sh";
@@ -100,6 +102,17 @@ app.post('/install', function(request, response) {
 
 app.get('/test',function(request, response) {
     return displayHtmlPage("test.html", response);
+});
+
+app.post('/file-upload', function(request, response) {
+    fileUpload(request, response, function(error) {
+        if (error) {
+            console.log("Error for file upload request: " + error);
+            response.status(500).send('Oops, something broke!');
+        } else {
+          response.sendStatus(204);
+        }
+    });
 });
 
 app.post('/test',function(request, response) {
