@@ -8,7 +8,6 @@
         <title>MonkeyPi</title>
 
         <!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" href="css/dropzone.min.css">
         <link rel="stylesheet" href="css/style.css">
         <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
@@ -28,6 +27,7 @@
             </form>
           </div>
           <button class="box-footer-button" disabled="true">Install on device</button>
+          <form id="hiddenInstallForm" action="/install" method="post" style="display:none;"></form>
         </div>
       </div>
 
@@ -55,7 +55,6 @@
         </form> -->
         <!-- Latest compiled and minified JavaScript -->
         <script src="js/jquery-3.2.1.min.js"></script>
-        <script src="js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
         <script src="js/dropzone.min.js"></script>
 
         <script>
@@ -70,6 +69,9 @@
               this.on("success", function(file) { $('.box-footer-button').prop('disabled', false); });
             }
           };
+          $( '.box-footer-button' ).click(function() {
+            $( '#hiddenInstallForm' ).submit()
+          });
         </script>
     </body>
 </html>

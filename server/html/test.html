@@ -8,59 +8,56 @@
         <title>MonkeyPi</title>
 
         <!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link rel="stylesheet" href="css/style.css">
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+
     </head>
     <body>
-        <form class="form-horizontal" id="uploadForm" enctype="multipart/form-data" action="/test" method="post">
-            <fieldset>
-                <!-- Form Name -->
-                <legend>MonkeyPi</legend>
+      <div class="wrapper">
+        <form id="testForm" class="box" enctype="multipart/form-data" action="/test" method="post">
+            <div class="box-header">
+              <h1>Monkey Pi Android Tester</h1>
+            </div>
+            <div class="box-body">
+              {{#if packageName}}
+              <div>
+                <h2>Ready to test {{packageName}}</h2>
+                <p class="subtext">{{packageName}} has been installed and is ready to be tested</p>
+              </div>
 
-                <!-- Text input-->
-                <div class="form-group">
-                    <label class="col-md-4 control-label" for="packageName">Package Name</label>
-                    <div class="col-md-4">
-                        <input id="packageName" name="packageName" placeholder="com.cube.gdpc.rfb" class="form-control input-md" required="" type="text">
-                    </div>
-                </div>
+              {{/if}}
 
-                <!-- Multiple Radios (inline) -->
-                <div class="form-group">
-                    <label class="col-md-4 control-label" for="time">Testing Time (minutes)</label>
-                    <div class="col-md-4">
-                        <label class="radio-inline" for="minutes-5">
-                            <input name="minutes" id="minutes-5" value="5" checked="checked" type="radio">
-                            5
-                        </label>
+              <!-- Text input-->
+              <div>
+                <label for="packageName">PACKAGE NAME</label><br />
+                <input id="packageName" name="packageName" placeholder="com.cube.gdpc.rfb" required="" {{#if packageName}} value="{{packageName}}" {{/if}} type="text">
+              </div>
 
-                        <label class="radio-inline" for="minutes-10">
-                            <input name="minutes" id="minutes-10" value="10" type="radio">
-                            10
-                        </label>
+              <!-- Minutes -->
+              <div>
+                <label id="range-label" for="minutes">SET TEST DURATION (minutes)</label><br />
+                <input id="range" type="range" min="5" max="30" step="5" name="minutes">
+              </div>
 
-                        <label class="radio-inline" for="time-2">
-                            <input name="minutes" id="minutes-20" value="20" type="radio">
-                            20
-                        </label>
-
-                        <label class="radio-inline" for="time-3">
-                            <input name="minutes" id="minutes-30" value="30" type="radio">
-                            30
-                        </label>
-                    </div>
-                </div>
-
-                <!-- Button -->
-                <div class="form-group">
-                    <label class="col-md-4 control-label" for="submit"></label>
-                    <div class="col-md-4">
-                        <button id="submit" name="submit" class="btn btn-primary">Test App</button>
-                    </div>
-                </div>
-            </fieldset>
+            </div>
+            <button class="box-footer-button" name="submit" id="submit">Test App</button>
         </form>
+      </div>
 
         <!-- Latest compiled and minified JavaScript -->
-        <script src="js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <script src="js/jquery-3.2.1.min.js"></script>
+        <script>
+          function updateTime(time) {
+            $('#range-label').text('SET TEST DURATION (' + time + ' minutes)');
+          }
+
+          updateTime($('#range').val())
+
+          $('#range').on('input', function () {
+            updateTime($(this).val());
+          });
+
+        </script>
+
     </body>
 </html>

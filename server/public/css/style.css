@@ -2,6 +2,7 @@ html, body, .wrapper {
   height: 100%;
   font-family: 'Roboto', sans-serif;
   text-align: center;
+  color: #565656;
 }
 
 textarea, input, button { outline: none; }
@@ -10,8 +11,19 @@ body {
   background: url('/img/background.png');
 }
 
-h1 {
+h1, h2, label {
   font-weight: bold;
+}
+
+h2, p {
+  margin: 10px 0;
+}
+
+.subtext {
+  color: grey;
+}
+
+h1 {
   font-size: 24px;
   margin: 15px 0;
 }
@@ -41,8 +53,22 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   padding: 10px;
   flex-grow: 1;
+}
+
+#testForm .box-body {
+  align-items: flex-start;
+  text-align: left;
+  justify-content: space-around;
+}
+
+#testForm .box-body > div {
+  display: flex;
+  flex-direction: column;
+  align-content: stretch;
+  width: 100%;
 }
 
 #fileUpload {
@@ -75,6 +101,7 @@ h1 {
   font-size: 20px;
   height: 74px;
   transition: background-color 0.3s ease;
+  cursor: pointer;
 }
 
 .box-footer-button:hover {
